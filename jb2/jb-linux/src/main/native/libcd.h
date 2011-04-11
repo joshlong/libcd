@@ -1,8 +1,28 @@
+/*
+ * Copyright 2011 Josh Long
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+
 // http://www.parashift.com/c++-faq-lite/mixing-c-and-cpp.html -- very cool bit about mixing c / c++ together
 // http://leapster.org/linux/cdrom/
 // http://svn.icculus.org/quake2/trunk/src/linux/cd_linux.c?view=markup&pathrev=53
 // http://www.ibm.com/developerworks/library/l-devctrl-migration/index.html
-//sudo apt-get install libcdio-paranoia-dev
+
 #ifdef __cplusplus
 extern "C" {
 #endif

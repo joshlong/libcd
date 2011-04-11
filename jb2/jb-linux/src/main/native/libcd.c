@@ -1,8 +1,29 @@
-//sudo apt-get install libcdio-paranoia-dev
-//  libcdio
-// libcdda_paranoia
-// libcdda_interface
+/*
+ * Copyright 2011 Josh Long
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
 
+/**
+  * This library provides support for introspecting a CD in a drive, reading its contents, identifying its contents using CDDB DISCID,
+  * playing a CD and performing common file format conversions of the created .wav files.
+  *
+  * Author: Josh Long
+  *
+  */
 #include <cdio/cdio.h>
 #include <cdio/cd_types.h>
 #include <cdio/disc.h>
@@ -19,7 +40,6 @@
 #include <prthread.h>
 #include <prtypes.h>
 #include <stdarg.h>
-#include <stdio.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,7 +92,7 @@ static long CDPWrite(int outf, char *buffer);
 // it must be given the O_NONBLOCK flag when opening. My tests showed
 // that if this isn't done, this program will not work.
 
-// foreward declaration  <ugh>
+// forward declaration  <ugh>
 
 static inline short swap16(short x) {
 	return ((((unsigned short) x & 0x00ffU) << 8) | (((unsigned short) x & 0xff00U) >> 8));
