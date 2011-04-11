@@ -3,7 +3,11 @@
 #sudo apt-get install libcdio-cdda0 libcdio-cdda-dev libcdio-paranoia0 libcdio-paranoia-dev libcddb2 libcddb2-dev libcdio-cdda0 libcdio-paranoia0  libboost-thread1.40.0 libboost-signals1.40.0 libboost-math1.40.0 libboost-date-time1.40.0 libboost-all-dev x264 usbutils libnspr4-0d 
 
 #  -shared 
-EXTRA_OPTS :=   -Wall -fPIC -O  -I/usr/include/nspr -I/usr/include/boost -ggdb -lcdio_paranoia
+
+
+
+DEBUG := -ggdb
+EXTRA_OPTS :=   -Wall -fPIC -O  -I/usr/include/nspr -I/usr/include/boost  -lcdio_paranoia $(DEBUG)
 PKGS := glib-2.0 libcddb libcdio libavformat gtk+-2.0 vorbis nspr
 CFLAGS := $(EXTRA_OPTS) $(shell pkg-config --cflags $(PKGS))
 LDFLAGS := $(shell pkg-config --libs $(PKGS))  
