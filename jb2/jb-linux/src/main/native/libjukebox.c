@@ -18,12 +18,12 @@
  */
 
 /**
-  * This library provides support for introspecting a CD in a drive, reading its contents, identifying its contents using CDDB DISCID,
-  * playing a CD and performing common file format conversions of the created .wav files.
-  *
-  * Author: Josh Long
-  *
-  */
+ * This library provides support for introspecting a CD in a drive, reading its contents, identifying its contents using CDDB DISCID,
+ * playing a CD and performing common file format conversions of the created .wav files.
+ *
+ * Author: Josh Long
+ *
+ */
 #include <cdio/cdio.h>
 #include <cdio/cd_types.h>
 #include <cdio/disc.h>
@@ -52,7 +52,8 @@
 #include "libjukebox.h"
 
 // forward declaration for a callback function used later on
-static void _cdripper_rip_track_progress_update(long inpos, paranoia_cb_mode_t function);
+static void _cdripper_rip_track_progress_update(long inpos,
+		paranoia_cb_mode_t function);
 
 char * get_device_details(char * device_name) {
 	return device_name;
@@ -62,7 +63,6 @@ char ** list_device_names(void) {
 	char ** devices = cdio_get_devices(DRIVER_DEVICE);
 	return devices;
 }
-
 
 // Use the discid library to generate the DISCID for a given compact disc
 char * cdripper_get_discid(char * device) {
@@ -95,7 +95,8 @@ static long CDPWrite(int outf, char *buffer);
 // forward declaration  <ugh>
 
 static inline short swap16(short x) {
-	return ((((unsigned short) x & 0x00ffU) << 8) | (((unsigned short) x & 0xff00U) >> 8));
+	return ((((unsigned short) x & 0x00ffU) << 8) | (((unsigned short) x
+			& 0xff00U) >> 8));
 }
 
 static inline int bigendianp(void) {
@@ -115,7 +116,8 @@ PRBool cdripper_is_audio_cd(char * cd_device) {
 
 	discmode_t discmode = cdio_get_discmode(ptr);
 
-	if (discmode == CDIO_DISC_MODE_CD_MIXED || discmode == CDIO_DISC_MODE_CD_DA)
+	//discmode == CDIO_DISC_MODE_CD_MIXED || todo is it possible for us to do the right thing with CDIO_DISC_MODE_CD_MIXED?
+	if (discmode == CDIO_DISC_MODE_CD_DA)
 		return PR_TRUE;
 
 	return PR_FALSE;
@@ -268,14 +270,12 @@ PRBool _cdripper_rip_track(char *device, char *generic_scsi_device, int track,
 	int force_cdrom_overlap = -1;
 	int output_endian = 0; /* -1=host, 0=little, 1=big */
 
-
 	int out;
 	int verbose = CDDA_MESSAGE_FORGETIT;
 	int i;
 	long cursor, offset;
 	cdrom_drive_t *d = NULL;
 	cdrom_paranoia_t *p = NULL;
-
 
 	d = cdda_identify(device, verbose, NULL);
 	///printf("managed to identify *d");
@@ -297,10 +297,12 @@ PRBool _cdripper_rip_track(char *device, char *generic_scsi_device, int track,
 		d->bigendianp = force_cdrom_endian;
 		switch (force_cdrom_endian) {
 		case 0:
-			printf( "Forcing CDROM sense to little-endian; ignoring preset and autosense");
+			printf(
+					"Forcing CDROM sense to little-endian; ignoring preset and autosense");
 			break;
 		case 1:
-			printf( "Forcing CDROM sense to big-endian; ignoring preset and autosense");
+			printf(
+					"Forcing CDROM sense to big-endian; ignoring preset and autosense");
 			break;
 		}
 	}
@@ -313,7 +315,9 @@ PRBool _cdripper_rip_track(char *device, char *generic_scsi_device, int track,
 			return PR_FALSE;
 		}
 
-		printf("Forcing default to read %d sectors; ignoring preset and autosense", force_cdrom_sectors);
+		printf(
+				"Forcing default to read %d sectors; ignoring preset and autosense",
+				force_cdrom_sectors);
 
 		d->nsectors = force_cdrom_sectors;
 		//d->bigbuff=force_cdrom_sectors*CD_FRAMESIZE_RAW;
