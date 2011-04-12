@@ -117,7 +117,7 @@ PRBool cdripper_is_audio_cd(char * cd_device) {
 	discmode_t discmode = cdio_get_discmode(ptr);
 
 	//discmode == CDIO_DISC_MODE_CD_MIXED || todo is it possible for us to do the right thing with CDIO_DISC_MODE_CD_MIXED?
-	if (discmode == CDIO_DISC_MODE_CD_DA)
+	if (discmode == CDIO_DISC_MODE_CD_DA || discmode == CDIO_DISC_MODE_CD_MIXED)
 		return PR_TRUE;
 
 	return PR_FALSE;
