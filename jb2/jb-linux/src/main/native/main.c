@@ -18,7 +18,7 @@
  */
 //http://leapster.org/linux/cdrom/
 #include <unistd.h>
-#include "libcd.h"
+#include "libjukebox.h"
 #include <fstab.h>
 #include <prlog.h>
 #include <FLAC/all.h>

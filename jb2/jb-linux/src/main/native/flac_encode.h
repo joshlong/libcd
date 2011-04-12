@@ -21,6 +21,10 @@
  * Encodes a single file
  */
 #include <stdio.h>
+
+/**
+ * Users of this function should only close the inFile, not the outFile, as the encoding function will handle that for you.
+ */
 int encode_flac_file( FILE * inFile, int level /* 0 - 10 */, FILE  * outFile);
 int encode_flac_file_name( char * inFile, int level /* 0 - 10 */, char * outFile);
 

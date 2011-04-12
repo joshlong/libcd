@@ -49,7 +49,7 @@
 #include <unistd.h>
 #include "discid/discid.h"
 #include <fstab.h>
-#include "libcd.h"
+#include "libjukebox.h"
 
 // forward declaration for a callback function used later on
 static void _cdripper_rip_track_progress_update(long inpos, paranoia_cb_mode_t function);

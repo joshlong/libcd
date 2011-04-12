@@ -26,11 +26,11 @@
 
 DEBUG := -ggdb
 EXTRA_OPTS :=   -Wall -fPIC -O  -I/usr/include/nspr -I/usr/include/boost  -lcdio_paranoia $(DEBUG)
-PKGS := glib-2.0 libcddb libcdio libavformat gtk+-2.0 vorbis nspr flac
+PKGS := glib-2.0 libcddb libcdio libavformat gtk+-2.0 vorbis nspr flac ogg
 CFLAGS := $(EXTRA_OPTS) $(shell pkg-config --cflags $(PKGS))
 LDFLAGS := $(shell pkg-config --libs $(PKGS))  
 
-C_FILES := discid/sha1.c discid/base64.c discid/disc_linux.c discid/disc.c flac_encode.c libcd.c main.c
+C_FILES := discid/sha1.c discid/base64.c discid/disc_linux.c discid/disc.c flac_encode.c libjukebox.c main.c
 
 all: $(C_FILES)
 	gcc  $(CFLAGS)  $(LDFLAGS)  -o libcd $(C_FILES)
