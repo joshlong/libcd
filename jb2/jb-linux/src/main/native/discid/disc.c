@@ -1,7 +1,7 @@
 /* --------------------------------------------------------------------------
 
    MusicBrainz -- The Internet music metadatabase
-
+   Copyright (C) 2011 Josh Long (added ifdefs for DEBUG in case FLAC is compiled in the same batch)
    Copyright (C) 2006 Matthias Friedrich
    Copyright (C) 2000 Robert Kaye
    Copyright (C) 1999 Marc E E van Woerkom
@@ -62,16 +62,19 @@ void discid_free(DiscId *d) {
 
 char *discid_get_error_msg(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	return disc->error_msg;
 }
 
 
 char *discid_get_id(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( disc->success );
+#endif
 
 	if ( ! disc->success )
 		return NULL;
@@ -85,8 +88,10 @@ char *discid_get_id(DiscId *d) {
 
 char *discid_get_freedb_id(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( disc->success );
+#endif
 
 	if ( ! disc->success )
 		return NULL;
@@ -100,9 +105,10 @@ char *discid_get_freedb_id(DiscId *d) {
 
 char *discid_get_submission_url(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( disc->success );
-
+#endif
 	if ( ! disc->success )
 		return NULL;
 
@@ -114,8 +120,10 @@ char *discid_get_submission_url(DiscId *d) {
 
 char *discid_get_webservice_url(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( disc->success );
+#endif
 
 	if ( ! disc->success )
 		return NULL;
@@ -128,14 +136,14 @@ char *discid_get_webservice_url(DiscId *d) {
 
 int discid_read(DiscId *d, const char *device) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	if ( device == NULL )
 		device = discid_get_default_device();
-
+#ifdef DEBUG
 	assert( device != NULL );
-
+#endif
 	/* Necessary, because the disc handle could have been used before. */
 	memset(disc, 0, sizeof(mb_disc_private));
 
@@ -145,9 +153,9 @@ int discid_read(DiscId *d, const char *device) {
 
 int discid_put(DiscId *d, int first, int last, int *offsets) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	memset(disc, 0, sizeof(mb_disc_private));
 
 	if ( first > last || first < 1 || first > 99 || last < 1
@@ -175,37 +183,37 @@ char *discid_get_default_device(void) {
 
 int discid_get_first_track_num(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	return disc->first_track_num;
 }
 
 
 int discid_get_last_track_num(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	return disc->last_track_num;
 }
 
 
 int discid_get_sectors(DiscId *d) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
-
+#endif
 	return disc->track_offsets[0];
 }
 
 
 int discid_get_track_offset(DiscId *d, int i) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( TRACK_NUM_IS_VALID(disc, i) );
-
+#endif
 	if ( ! TRACK_NUM_IS_VALID(disc, i) )
 		return 0;
 
@@ -215,10 +223,10 @@ int discid_get_track_offset(DiscId *d, int i) {
 
 int discid_get_track_length(DiscId *d, int i) {
 	mb_disc_private *disc = (mb_disc_private *) d;
-
+#ifdef DEBUG
 	assert( disc != NULL );
 	assert( TRACK_NUM_IS_VALID(disc, i) );
-
+#endif
 	if ( ! TRACK_NUM_IS_VALID(disc, i) )
 		return 0;
 
@@ -245,9 +253,9 @@ static void create_disc_id(mb_disc_private *d, char buf[]) {
 	unsigned long	size;
 	char		tmp[17]; /* for 8 hex digits (16 to avoid trouble) */
 	int		i;
-
+#ifdef DEBUG
 	assert( d != NULL );
-
+#endif
 	sha_init(&sha);
 
 	sprintf(tmp, "%02X", d->first_track_num);
@@ -278,9 +286,9 @@ static void create_disc_id(mb_disc_private *d, char buf[]) {
  */
 static void create_freedb_disc_id(mb_disc_private *d, char buf[]) {
 	int i, n, m, t;
-
+#ifdef DEBUG
 	assert( d != NULL );
-
+#endif
 	n = 0;
 	for (i = 0; i < d->last_track_num; i++) {
 		m = d->track_offsets[i + 1] / 75;
@@ -301,9 +309,9 @@ static void create_freedb_disc_id(mb_disc_private *d, char buf[]) {
 static void create_submission_url(mb_disc_private *d, char buf[]) {
 	char tmp[1024];
 	int i;
-
+#ifdef DEBUG
 	assert( d != NULL );
-
+#endif
 	strcpy(buf, MB_SUBMISSION_URL);
 
 	strcat(buf, "?id=");
@@ -331,9 +339,9 @@ static void create_submission_url(mb_disc_private *d, char buf[]) {
 static void create_webservice_url(mb_disc_private *d, char buf[]) {
 	char tmp[1024];
 	int i;
-
+#ifdef DEBUG
 	assert( d != NULL );
-
+#endif
 	strcpy(buf, MB_WEBSERVICE_URL);
 
 	strcat(buf, "?type=xml&discid=");

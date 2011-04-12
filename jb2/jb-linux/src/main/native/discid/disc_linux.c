@@ -81,8 +81,9 @@ static int read_toc_entry(int fd, int track_num, unsigned long *lba) {
 	te.cdte_format = CDROM_LBA;
 
 	ret = ioctl(fd, CDROMREADTOCENTRY, &te);
+#ifdef DEBUG
 	assert( te.cdte_format == CDROM_LBA );
-
+#endif
 	/* in case the ioctl() was successful */
 	if ( ret == 0 )
 		*lba = te.cdte_addr.lba;

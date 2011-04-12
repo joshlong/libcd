@@ -1,18 +1,50 @@
+/*
+ * Copyright 2011 Josh Long
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
 //http://leapster.org/linux/cdrom/
 #include <unistd.h>
 #include "libcd.h"
 #include <fstab.h>
 #include <prlog.h>
+#include <FLAC/all.h>
 #include <prlong.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 #include <prthread.h>
 #include <prtypes.h>//for the tests
 #include <cdio/disc.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "flac_encode.h"
+
+////////////////////////////////////////////////////////////////////////////
+/** CD specific operations */
+
 int test_reading_from_drive(char * device_name) {
 	PRFloat64 rip_percent_done = 0;
 	char * outfile = "/home/jlong/Desktop/myOutfile2.wav";
-	PRBool did_it_work = cdripper_rip_track(device_name, 2, outfile, &rip_percent_done);
-	printf("did it work: %s, percent done: %f \n", did_it_work == PR_TRUE ? "Y" : "N", rip_percent_done);
+	PRBool did_it_work = cdripper_rip_track(device_name, 2, outfile,
+			&rip_percent_done);
+	printf("did it work: %s, percent done: %f \n",
+			did_it_work == PR_TRUE ? "Y" : "N", rip_percent_done);
 	return EXIT_SUCCESS;
 }
 
@@ -59,30 +91,29 @@ int test_manipulating_drive(char * device_name) {
 }
 
 int main(void) {
-	printf("running main! \n");
+	PRBool test_flac_functionality = PR_TRUE ;
+	PRBool test_cd_functionality = PR_FALSE;
 
-	char * device_name = "/dev/scd0";
-
-	test_manipulating_drive(device_name);
-
-	char ** drives = list_device_names();
-
-	int ctr;
-
-	int len = sizeof(drives) / sizeof(char*);
-
-	for (ctr = 0; ctr < len; ctr++) {
-
-		char * device_name = drives[ctr];
-
-		printf("deviceName: %s \n", device_name);
-
-		char * details_on_drive = get_device_details(device_name);
-
-		printf("details: %s \n", details_on_drive);
+	if( test_flac_functionality == PR_TRUE ) {
+		char * in = "/home/jlong/Desktop/myOutfile2.wav" ;
+		char * out = "/home/jlong/Desktop/myOutfile2.flac" ;
+		encode_flac_file( in, 10, out );
 	}
 
-	test_reading_from_drive(device_name);
-
+	if (test_cd_functionality == PR_TRUE) {
+		printf("running main! \n");
+		char * device_name = "/dev/scd0";
+		test_manipulating_drive(device_name);
+		char ** drives = list_device_names();
+		int ctr;
+		int len = sizeof(drives) / sizeof(char*);
+		for (ctr = 0; ctr < len; ctr++) {
+			char * device_name = drives[ctr];
+			printf("deviceName: %s \n", device_name);
+			char * details_on_drive = get_device_details(device_name);
+			printf("details: %s \n", details_on_drive);
+		}
+		test_reading_from_drive(device_name);
+	}
 	return EXIT_SUCCESS;
 }
