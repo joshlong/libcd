@@ -29,7 +29,7 @@
 #include <prthread.h>
 #include <prtypes.h>//for the tests
 #include <cdio/disc.h>
-
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,10 +38,9 @@
 ////////////////////////////////////////////////////////////////////////////
 /** CD specific operations */
 
-int test_reading_from_drive(char * device_name) {
+int test_reading_from_drive(char * fnToWriteTo, char * device_name) {
 	PRFloat64 rip_percent_done = 0;
-	char * outfile = "/home/jlong/Desktop/myOutfile2.wav";
-	PRBool did_it_work = cdripper_rip_track(device_name, 2, outfile,
+	PRBool did_it_work = cdripper_rip_track(device_name, 2, fnToWriteTo,
 			&rip_percent_done);
 	printf("did it work: %s, percent done: %f \n",
 			did_it_work == PR_TRUE ? "Y" : "N", rip_percent_done);
@@ -90,15 +89,18 @@ int test_manipulating_drive(char * device_name) {
 	return PR_SUCCESS;
 }
 
+static PRBool file_exists(char * fn) {
+	struct stat stat_p;
+	stat(fn, &stat_p);
+	return S_ISREG(stat_p.st_mode);
+}
+
 int main(void) {
-	PRBool test_flac_functionality = PR_TRUE ;
+	PRBool test_flac_functionality = PR_TRUE;
+
 	PRBool test_cd_functionality = PR_FALSE;
 
-	if( test_flac_functionality == PR_TRUE ) {
-		char * in = "/home/jlong/Desktop/myOutfile2.wav" ;
-		char * out = "/home/jlong/Desktop/myOutfile2.flac" ;
-		encode_flac_file( in, 10, out );
-	}
+	char * wav = "/home/jlong/Desktop/myOutfile2.wav";
 
 	if (test_cd_functionality == PR_TRUE) {
 		printf("running main! \n");
@@ -113,7 +115,15 @@ int main(void) {
 			char * details_on_drive = get_device_details(device_name);
 			printf("details: %s \n", details_on_drive);
 		}
-		test_reading_from_drive(device_name);
+		test_reading_from_drive(wav, device_name);
 	}
+	if (test_flac_functionality == PR_TRUE) {
+		char * out = "/home/jlong/Desktop/myOutfile2.flac";
+		if (file_exists(out) == PR_TRUE) {
+			unlink(out);
+		}
+		encode_flac_file_name(wav, 10, out);
+	}
+
 	return EXIT_SUCCESS;
 }

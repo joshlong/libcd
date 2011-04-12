@@ -39,6 +39,7 @@
 
 /**
  * All of this was taken from the samples in the flac distribution.
+ * TODO rework this to support FILE* instead of char* fileName pointers.
  */
 
 #define READSIZE 1024
@@ -56,22 +57,43 @@ static FLAC__byte
 		buffer[READSIZE/*samples*/* 2/*bytes_per_sample*/* 2/*channels*/]; /* we read the WAVE data into here */
 static FLAC__int32 pcm[READSIZE/*samples*/* 2/*channels*/];
 
-int encode_flac_file(char * inputFileName, int compressionLevel /* 0 - 10 */,
-		char * outputFileName) {
-	FLAC__bool ok = true;
-	FLAC__StreamEncoder *encoder = 0;
-	FLAC__StreamEncoderInitStatus init_status;
-	FLAC__StreamMetadata *metadata[2];
-	FLAC__StreamMetadata_VorbisComment_Entry entry;
-	FILE *fin;
-	unsigned sample_rate = 0;
-	unsigned channels = 0;
-	unsigned bps = 0;
+/// convenience method that we also export that should just deelgate to encode_flac_file
+int encode_flac_file_name(char * inputFileName, int level /* 0 - 10 */, char * outFile) {
+
+	FILE * fin;
+	FILE * fout;
 
 	if ((fin = fopen(inputFileName, "rb")) == NULL) {
 		fprintf(stderr, "ERROR: opening %s for output\n", inputFileName);
 		return 1;
 	}
+
+	if ((fout = fopen(outFile, "w+b")) == NULL) {
+		fprintf(stderr, "ERROR: opening %s for output\n", outFile);
+		return 1;
+	}
+
+	PRBool status = encode_flac_file(fin, level, fout); // todo make sure we build a ptr to an output file somewhere
+
+
+	PRBool closedIn = fin != NULL && EOF != fclose(fin);
+	// NB YOU DO NOT NEED TO CLOSE THE FILE *UNLESS* THERE WAS A BAD RETURN!! PRBool closedOut = fout != NULL && EOF != fclose(fout);
+	if (closedIn == PR_TRUE &&  status == PR_TRUE ) {
+		return PR_TRUE;
+	}
+	return PR_FALSE;
+
+}
+
+int encode_flac_file(FILE * fin, int compressionLevel, FILE * oFile) {
+	FLAC__bool ok = true;
+	FLAC__StreamEncoder *encoder = 0;
+	FLAC__StreamEncoderInitStatus init_status;
+	FLAC__StreamMetadata *metadata[2];
+	FLAC__StreamMetadata_VorbisComment_Entry entry;
+ 	unsigned sample_rate = 0;
+	unsigned channels = 0;
+	unsigned bps = 0;
 
 	/* read wav header and validate it */
 	if (fread(buffer, 1, 44, fin) != 44 || memcmp(buffer, "RIFF", 4) || memcmp(
@@ -80,7 +102,7 @@ int encode_flac_file(char * inputFileName, int compressionLevel /* 0 - 10 */,
 		fprintf(
 				stderr,
 				"ERROR: invalid/unsupported WAVE file, only 16bps stereo WAVE in canonical form allowed\n");
-		fclose(fin);
+		//fclose(fin);
 		return 1;
 	}
 	sample_rate = ((((((unsigned) buffer[27] << 8) | buffer[26]) << 8)
@@ -93,7 +115,7 @@ int encode_flac_file(char * inputFileName, int compressionLevel /* 0 - 10 */,
 	/* allocate the encoder */
 	if ((encoder = FLAC__stream_encoder_new()) == NULL) {
 		fprintf(stderr, "ERROR: allocating encoder\n");
-		fclose(fin);
+		//fclose(fin);
 		return 1;
 	}
 
@@ -131,7 +153,8 @@ int encode_flac_file(char * inputFileName, int compressionLevel /* 0 - 10 */,
 
 	/* initialize encoder */
 	if (ok) {
-		init_status = FLAC__stream_encoder_init_file(encoder, outputFileName,
+
+		init_status = FLAC__stream_encoder_init_FILE(encoder, oFile,
 				progress_callback, /*client_data=*/NULL);
 		if (init_status != FLAC__STREAM_ENCODER_INIT_STATUS_OK) {
 			fprintf(stderr, "ERROR: initializing encoder: %s\n",
@@ -177,7 +200,7 @@ int encode_flac_file(char * inputFileName, int compressionLevel /* 0 - 10 */,
 	FLAC__metadata_object_delete(metadata[1]);
 
 	FLAC__stream_encoder_delete(encoder);
-	fclose(fin);
+//	fclose(fin);
 
 	return ok ? PR_TRUE : PR_FALSE;
 }

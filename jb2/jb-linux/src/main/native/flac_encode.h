@@ -20,4 +20,7 @@
 /**
  * Encodes a single file
  */
-int encode_flac_file(char * inFile, int level /* 0 - 10 */, char * outFile);
+#include <stdio.h>
+int encode_flac_file( FILE * inFile, int level /* 0 - 10 */, FILE  * outFile);
+int encode_flac_file_name( char * inFile, int level /* 0 - 10 */, char * outFile);
+
