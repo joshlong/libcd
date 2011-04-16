@@ -1,0 +1,10 @@
+Debug
+Release
+OldStuff
+*.ncb
+*.plg
+*.opt
+*.dll
+*.clw
+*.aps
+*.res

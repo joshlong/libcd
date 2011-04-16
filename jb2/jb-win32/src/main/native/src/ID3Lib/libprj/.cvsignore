@@ -1,0 +1,21 @@
+Debug_UNICODE
+Release_UNICODE
+Debug
+Release
+OldStuff
+LocalCDDB
+my music
+CDex.ini
+*.ncb
+*.plg
+*.opt
+*.dll
+*.clw
+*.aps
+*.txt
+*.ilk
+*.pdb
+*.lib
+*.exp
+*.mp3
+*.wav

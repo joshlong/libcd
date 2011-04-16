@@ -1,0 +1,15 @@
+Debug_UNICODE
+Release_UNICODE
+Debug
+Release
+testsd
+tests
+examplesd
+examples
+*.ncb
+*.plg
+*.opt
+*.dll
+*.clw
+*.aps
+*.ilk

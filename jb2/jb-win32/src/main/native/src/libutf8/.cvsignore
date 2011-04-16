@@ -1,0 +1,15 @@
+Debug
+Release
+*.ncb
+*.plg
+*.opt
+*.dll
+*.clw
+*.aps
+*.txt
+*.ilk
+*.pdb
+*.lib
+*.exp
+*.mp3
+*.wav

@@ -1,0 +1,14 @@
+html
+Debug
+Release
+OldStuff
+manual.*
+*.ncb
+*.plg
+*.opt
+*.dll
+*.clw
+*.aps
+*.txt
+*.ilk
+*.hlp
