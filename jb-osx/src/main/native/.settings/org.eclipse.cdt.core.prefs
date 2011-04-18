@@ -1,0 +1,7 @@
+#Mon Apr 18 04:20:53 PDT 2011
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.toolchain.gnu.base.1685360601/PATH/delimiter=\:
+environment/project/cdt.managedbuild.toolchain.gnu.base.1685360601/PATH/operation=append
+environment/project/cdt.managedbuild.toolchain.gnu.base.1685360601/PATH/value=${PATH}\:/usr/local/bin/pkg-config
+environment/project/cdt.managedbuild.toolchain.gnu.base.1685360601/append=true
+environment/project/cdt.managedbuild.toolchain.gnu.base.1685360601/appendContributed=true
