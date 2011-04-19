@@ -1,15 +1,83 @@
+ 
 #include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
+#include <unistd.h>
+
+#include <fcntl.h>
 #include <sys/ioctl.h>
-#include <IOKit/storage/IOCDMediaBSDClient.h>
+#include <errno.h>
+#include <paths.h>
+#include <sys/param.h>
+#include <IOKit/IOKitLib.h>
+#include <IOKit/IOBSD.h>
+#include <IOKit/storage/IOMediaBSDClient.h>
+#include <IOKit/storage/IOMedia.h>
+#include <IOKit/storage/IOCDMedia.h>
+#include <IOKit/storage/IOCDTypes.h>
+#include <CoreFoundation/CoreFoundation.h> 
+#include <DiscRecording/DiscRecording.h> 
+#include <IOKit/storage/IOCDTypes.h>
 
 #include "MacIoCtlDisc.h"
 
 const unsigned MSF_OFFSET = 150;
 const unsigned FRAMES_PER_SECOND = 75;
+
+ 
+
+
+/*
+ * Opens the CD drive door on OS X. 
+ *
+ */
+OSStatus OpenCdDriveDoor( const char *bsdPath   )
+{	
+	CFStringRef  refToBsdPath =  CFStringCreateWithCString( NULL, bsdPath , kCFStringEncodingUTF8 )  ; 	
+	DRDeviceRef cdDrive =DRDeviceCopyDeviceForBSDName( refToBsdPath );
+	if( cdDrive != NULL)	{	
+		return DRDeviceOpenTray( cdDrive ) ;
+	}
+	return NULL ;
+}
+
+OSStatus EjectCd( const char *bsdPath)
+{
+	CFStringRef  refToBsdPath =  CFStringCreateWithCString( NULL, bsdPath , kCFStringEncodingUTF8 )  ; 	
+	DRDeviceRef cdDrive =DRDeviceCopyDeviceForBSDName( refToBsdPath );
+	if(cdDrive != NULL)	{	
+		return	DRDeviceEjectMedia(cdDrive)  ;
+	} 
+	return NULL ;
+}
+
+OSStatus EjectOrOpenCdDrive(const char *bsdPath) 
+{
+	OSStatus s =OpenCdDriveDoor(bsdPath);
+	if( s!=noErr){
+		s = EjectCd(bsdPath);
+	}
+	return s; 
+	
+}
+
+Boolean hasCd(const char *bsdPath) { 
+	CMacIoCtlDisc * cdInDrive = new CMacIoCtlDisc( bsdPath);
+	char * buffer = cdInDrive->DiscId();
+	Boolean cd = (buffer !=NULL); // ie, no discid ==no cd 	
+	free(buffer) ;
+	delete cdInDrive;
+	return cd; 
+	
+}
+
+void CloseCdDriveDoor( const char *bsdPath)
+{
+	CFStringRef  refToBsdPath =  CFStringCreateWithCString( NULL, bsdPath , kCFStringEncodingUTF8 )  ; 	
+	DRDeviceRef cdDrive =DRDeviceCopyDeviceForBSDName( refToBsdPath ); 
+	 DRDeviceCloseTray( cdDrive ) ;
+ } 
+
+
 
 
 // used by DiscId 
@@ -29,6 +97,8 @@ CMacIoCtlDisc::CMacIoCtlDisc(const char *device)
   : m_pToc(NULL),
     m_track_count(0)
 {
+   // make sure that we have a copy of the dvice name locally
+	strcpy(deviceName, device);
   int drive = open(device, O_RDONLY);
   if (drive >= 0)
   {
@@ -63,6 +133,23 @@ CMacIoCtlDisc::CMacIoCtlDisc(const char *device)
     fprintf(stderr, "Can not open %s\n", device);
 }
 
+
+
+char *  CMacIoCtlDisc::Path(){ 
+	return deviceName ; 
+}
+
+char  * CMacIoCtlDisc::RawPath()
+{ 
+	
+    char bsdPath[ PATH_MAX ];
+	strcpy(bsdPath, _PATH_DEV); // '/dev/'
+	strcat(bsdPath, "r");      // '/dev/r'
+	strcat( bsdPath, deviceName) ;	
+	return bsdPath;
+}
+
+
 /**
  this returns the CDDB DISCID, which sucks, but its fairly commodotized... 
  */
@@ -89,9 +176,14 @@ char * CMacIoCtlDisc::DiscId()
 	
 }
 
+void CMacIoCtlDisc::ForceOpenOrEject () { EjectOrOpenCdDrive(deviceName); }
+
+Boolean CMacIoCtlDisc::TestForDisc() { return hasCd( deviceName ); }
+
 CMacIoCtlDisc::~CMacIoCtlDisc()
 {
   delete [] (u_int8_t *)m_pToc;
+  delete deviceName;
   m_pToc = NULL;
 }
 

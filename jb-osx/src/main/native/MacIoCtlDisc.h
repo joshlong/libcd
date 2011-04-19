@@ -21,12 +21,17 @@ public:
   virtual char* DiscId() ;
   virtual unsigned GetTrackCount() const;
   virtual unsigned long GetStartFrame(unsigned track) const;
+  virtual void ForceOpenOrEject () ;
+  virtual Boolean TestForDisc() ;
   virtual unsigned long GetFrames(unsigned track) const;
+  virtual char* RawPath();
+  virtual char* Path();
 
 private:
   CDTOC *m_pToc;
   unsigned int m_track_count;
   static const unsigned int max_buffer = 1536;
+  char * deviceName;
 };
 
 #endif // IOCTLDISC_H
