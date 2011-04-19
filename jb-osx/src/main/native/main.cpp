@@ -140,15 +140,21 @@ int main(void)
 {	
     io_iterator_t	mediaIterator;
     char bsdPath[ MAXPATHLEN ];
-	char rawPath[MAXPATHLEN];
+
  
     FindEjectableCDMedia(&mediaIterator);
 	GetBSDPath(mediaIterator, bsdPath, sizeof(bsdPath));
-	// lets dynamically discover a CD device, in this case, bsdPath: 	
+	
+	
+	
 	COSDisc * cdInDrive = new COSDisc( bsdPath ); // this is just 'disk1' 
+	
 	char * buffer =  	cdInDrive->DiscId( );
-	printf ( "the DISCID is: %s. \n", buffer ) ;
+	printf ( "the DISCID is: %s. \n", buffer ) ;	
 	free(buffer) ;
+	
+	cdInDrive->ForceOpenOrEject();
+	
 
     if (mediaIterator) {
         IOObjectRelease(mediaIterator);

@@ -1,4 +1,29 @@
- 
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <IOKit/storage/IOCDMediaBSDClient.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+#include <fcntl.h>
+#include <sys/ioctl.h>
+#include <errno.h>
+#include <paths.h>
+#include <sys/param.h>
+#include <IOKit/IOKitLib.h>
+#include <IOKit/IOBSD.h>
+#include <IOKit/storage/IOMediaBSDClient.h>
+#include <IOKit/storage/IOMedia.h>
+#include <IOKit/storage/IOCDMedia.h>
+#include <IOKit/storage/IOCDTypes.h>
+#include <CoreFoundation/CoreFoundation.h> 
+#include <DiscRecording/DiscRecording.h> 
+
+
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -53,7 +78,7 @@ OSStatus EjectCd( const char *bsdPath)
 OSStatus EjectOrOpenCdDrive(const char *bsdPath) 
 {
 	OSStatus s =OpenCdDriveDoor(bsdPath);
-	if( s!=noErr){
+	if( s ==noErr){
 		s = EjectCd(bsdPath);
 	}
 	return s; 
@@ -97,9 +122,14 @@ CMacIoCtlDisc::CMacIoCtlDisc(const char *device)
   : m_pToc(NULL),
     m_track_count(0)
 {
+	
+	deviceName =(char*) malloc(PATH_MAX);
+	strcpy(deviceName, device) ;
+	char *rawName  = RawPath () ;
    // make sure that we have a copy of the dvice name locally
-	strcpy(deviceName, device);
-  int drive = open(device, O_RDONLY);
+	//strcpy(deviceName, device);
+  int drive = open( rawName, O_RDONLY);
+	free(rawName)  ; //  
   if (drive >= 0)
   {
     dk_cd_read_toc_t header;
@@ -142,7 +172,7 @@ char *  CMacIoCtlDisc::Path(){
 char  * CMacIoCtlDisc::RawPath()
 { 
 	
-    char bsdPath[ PATH_MAX ];
+    char * bsdPath =(char*) malloc (  PATH_MAX );
 	strcpy(bsdPath, _PATH_DEV); // '/dev/'
 	strcat(bsdPath, "r");      // '/dev/r'
 	strcat( bsdPath, deviceName) ;	
@@ -176,7 +206,9 @@ char * CMacIoCtlDisc::DiscId()
 	
 }
 
-void CMacIoCtlDisc::ForceOpenOrEject () { EjectOrOpenCdDrive(deviceName); }
+void CMacIoCtlDisc::ForceOpenOrEject () {
+	EjectOrOpenCdDrive(deviceName); 
+}
 
 Boolean CMacIoCtlDisc::TestForDisc() { return hasCd( deviceName ); }
 
