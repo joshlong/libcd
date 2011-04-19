@@ -1,4 +1,8 @@
 
+/**
+ http://www.oramind.com/index.php?option=com_content&view=article&id=91:installing-portable-libraries-on-os-x&catid=18:programming-articles&Itemid=39
+ http://www.gnu.org/software/libcdio/libcdio.html 
+ */
 
 #include <stdio.h>
 #include <string.h>
@@ -17,6 +21,7 @@
 #include <IOKit/storage/IOCDTypes.h>
 #include <CoreFoundation/CoreFoundation.h> 
 #include <DiscRecording/DiscRecording.h> 
+#include <cdio/cdio.h>
 
 #include "MacIoCtlDisc.h"
 
@@ -134,33 +139,36 @@ void CloseDrive(int fileDescriptor)
 }
 
 
-
+/*  io_iterator_t	mediaIterator;
+ char bsdPath[ MAXPATHLEN ];
+ 
+ 
+ FindEjectableCDMedia(&mediaIterator);
+ GetBSDPath(mediaIterator, bsdPath, sizeof(bsdPath));
+ 
+ 
+ 
+ COSDisc * cdInDrive = new COSDisc( bsdPath ); // this is just 'disk1' 
+ 
+ char * buffer =  	cdInDrive->DiscId( );
+ printf ( "the DISCID is: %s. \n", buffer ) ;	
+ free(buffer) ;
+ 
+ // no need cdInDrive->ForceOpenOrEject();
+ 
+ 
+ if (mediaIterator) {
+ IOObjectRelease(mediaIterator);
+ mediaIterator = IO_OBJECT_NULL; 
+ }
+ delete cdInDrive;
+ return 0;
+*/ 
 
 int main(void)
 {	
-    io_iterator_t	mediaIterator;
-    char bsdPath[ MAXPATHLEN ];
+   
 
- 
-    FindEjectableCDMedia(&mediaIterator);
-	GetBSDPath(mediaIterator, bsdPath, sizeof(bsdPath));
-	
-	
-	
-	COSDisc * cdInDrive = new COSDisc( bsdPath ); // this is just 'disk1' 
-	
-	char * buffer =  	cdInDrive->DiscId( );
-	printf ( "the DISCID is: %s. \n", buffer ) ;	
-	free(buffer) ;
-	
-	// no need cdInDrive->ForceOpenOrEject();
-	
-
-    if (mediaIterator) {
-        IOObjectRelease(mediaIterator);
-		mediaIterator = IO_OBJECT_NULL; 
-    }
-	delete cdInDrive;
-    return 0;
+	return 0 ;
 }
 
