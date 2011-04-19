@@ -9,6 +9,21 @@
 #include "MacIoCtlDisc.h"
 
 const unsigned MSF_OFFSET = 150;
+const unsigned FRAMES_PER_SECOND = 75;
+
+
+// used by DiscId 
+static int cddb_sum(int n)
+{
+	int result = 0;
+	while (n > 0)
+	{
+		result += n % 10;
+		n /= 10;
+	}
+	
+	return result;
+}
 
 CMacIoCtlDisc::CMacIoCtlDisc(const char *device)
   : m_pToc(NULL),
@@ -46,6 +61,32 @@ CMacIoCtlDisc::CMacIoCtlDisc(const char *device)
   }
   else
     fprintf(stderr, "Can not open %s\n", device);
+}
+
+/**
+ this returns the CDDB DISCID, which sucks, but its fairly commodotized... 
+ */
+char * CMacIoCtlDisc::DiscId() 
+{
+	unsigned track_count =  GetTrackCount();
+	if (track_count > 0)
+	{
+		unsigned n = 0;
+		for (unsigned track = 0; track < track_count; ++track)
+			n += cddb_sum( GetStartFrame(track) / FRAMES_PER_SECOND);
+		
+		unsigned start_sec = GetStartFrame(0) / FRAMES_PER_SECOND;
+		unsigned leadout_sec = ( GetStartFrame(track_count - 1) +  GetFrames(track_count - 1)) / FRAMES_PER_SECOND;
+		unsigned total = leadout_sec - start_sec;			
+		unsigned id = ((n % 0xff) << 24 | total << 8 | track_count);
+		char * result=(char*) malloc( 20) ; 
+		sprintf(result,"%08X", id );
+			
+		return result;
+	}
+	
+	return NULL; 
+	
 }
 
 CMacIoCtlDisc::~CMacIoCtlDisc()
