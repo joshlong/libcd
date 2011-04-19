@@ -197,48 +197,7 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>3F33F23B135D9F8C005F36F1</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>MacIoCtlDisc.cpp</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>3F33F23C135D9F8C005F36F1</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>MacIoCtlDisc.cpp</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>3F33F23E135D9F8C005F36F1</string>
-						<key>history</key>
-						<array>
-							<string>3F33F23D135D9F8C005F36F1</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {930, 1008}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>-1123 -291 930 1049 -1600 -400 1600 1200 </string>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -348,12 +307,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>MacIoCtlDisc.cpp</string>
+								<string>main.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -361,18 +322,18 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>MacIoCtlDisc.cpp</string>
+										<string>main.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3F33F23A135D9F8C005F36F1</string>
+										<string>3F33F242135DA0A5005F36F1</string>
 										<key>history</key>
 										<array>
 											<string>3F43828A135D4776001CBA9F</string>
 											<string>3F33F185135D8F14005F36F1</string>
 											<string>3F33F237135D9F8C005F36F1</string>
+											<string>3F33F241135DA0A5005F36F1</string>
 											<string>3F33F238135D9F8C005F36F1</string>
-											<string>3F33F239135D9F8C005F36F1</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -394,8 +355,6 @@
 							<string>962pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -572,13 +531,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>3F33F23B135D9F8C005F36F1</string>
 		<string>3F33F1FC135D99C9005F36F1</string>
 		<string>3F33F1FD135D99C9005F36F1</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>3F438215135D470D001CBA9F</string>
 		<string>1C78EAAD065D492600B07095</string>
 		<string>/Users/jolong/Desktop/libcd/jb-osx/src/main/native/cdrom1.xcodeproj</string>
-		<string>3F33F23B135D9F8C005F36F1</string>
 	</array>
 	<key>WindowString</key>
 	<string>-1600 -345 1600 1145 -1600 -400 1600 1200 </string>

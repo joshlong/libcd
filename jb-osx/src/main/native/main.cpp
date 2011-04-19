@@ -153,7 +153,7 @@ int main(void)
 	printf ( "the DISCID is: %s. \n", buffer ) ;	
 	free(buffer) ;
 	
-	cdInDrive->ForceOpenOrEject();
+	// no need cdInDrive->ForceOpenOrEject();
 	
 
     if (mediaIterator) {
