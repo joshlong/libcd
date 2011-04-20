@@ -25,7 +25,8 @@ public:
   virtual Boolean TestForDisc() ;
   virtual unsigned long GetFrames(unsigned track) const;
   virtual char* RawPath();
-  virtual char* Path();
+  virtual char* Path(); 
+  virtual void ReadTrackToWavFile( unsigned track, char * whereToDumpWavData)   ;
 
 private:
   CDTOC *m_pToc;

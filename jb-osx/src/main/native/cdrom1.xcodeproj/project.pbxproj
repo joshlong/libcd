@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		3F33EF92135D7691005F36F1 /* MacIoCtlDisc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3F33EF90135D7691005F36F1 /* MacIoCtlDisc.cpp */; };
 		3F33F12C135D861E005F36F1 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F12B135D861E005F36F1 /* DiscRecording.framework */; };
-		3F33F2BB135DAEA9005F36F1 /* libcdio_cdda.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F2B8135DAEA9005F36F1 /* libcdio_cdda.dylib */; };
-		3F33F2BC135DAEA9005F36F1 /* libcdio_paranoia.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F2B9135DAEA9005F36F1 /* libcdio_paranoia.dylib */; };
-		3F33F2BD135DAEA9005F36F1 /* libcdio.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F2BA135DAEA9005F36F1 /* libcdio.dylib */; };
 		3F43818A135D41E4001CBA9F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F438189135D41E4001CBA9F /* IOKit.framework */; };
 		3F43818E135D41F7001CBA9F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F43818D135D41F7001CBA9F /* CoreFoundation.framework */; };
 		8DD76FAC0486AB0100D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
@@ -36,9 +33,6 @@
 		3F33EF90135D7691005F36F1 /* MacIoCtlDisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MacIoCtlDisc.cpp; sourceTree = "<group>"; };
 		3F33EF91135D7691005F36F1 /* MacIoCtlDisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacIoCtlDisc.h; sourceTree = "<group>"; };
 		3F33F12B135D861E005F36F1 /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
-		3F33F2B8135DAEA9005F36F1 /* libcdio_cdda.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdio_cdda.dylib; path = lib/cdio/libcdio_cdda.dylib; sourceTree = "<group>"; };
-		3F33F2B9135DAEA9005F36F1 /* libcdio_paranoia.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdio_paranoia.dylib; path = lib/cdio/libcdio_paranoia.dylib; sourceTree = "<group>"; };
-		3F33F2BA135DAEA9005F36F1 /* libcdio.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdio.dylib; path = lib/cdio/libcdio.dylib; sourceTree = "<group>"; };
 		3F438189135D41E4001CBA9F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		3F43818D135D41F7001CBA9F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8DD76FB20486AB0100D96B5E /* cdrom1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cdrom1; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,9 +47,6 @@
 				3F43818A135D41E4001CBA9F /* IOKit.framework in Frameworks */,
 				3F43818E135D41F7001CBA9F /* CoreFoundation.framework in Frameworks */,
 				3F33F12C135D861E005F36F1 /* DiscRecording.framework in Frameworks */,
-				3F33F2BB135DAEA9005F36F1 /* libcdio_cdda.dylib in Frameworks */,
-				3F33F2BC135DAEA9005F36F1 /* libcdio_paranoia.dylib in Frameworks */,
-				3F33F2BD135DAEA9005F36F1 /* libcdio.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,9 +56,6 @@
 		08FB7794FE84155DC02AAC07 /* cdrom1 */ = {
 			isa = PBXGroup;
 			children = (
-				3F33F2B8135DAEA9005F36F1 /* libcdio_cdda.dylib */,
-				3F33F2B9135DAEA9005F36F1 /* libcdio_paranoia.dylib */,
-				3F33F2BA135DAEA9005F36F1 /* libcdio.dylib */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6A0FF2B0290797F04C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
