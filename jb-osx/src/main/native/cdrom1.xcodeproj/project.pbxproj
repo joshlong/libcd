@@ -32,8 +32,6 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
-		3F33EF90135D7691005F36F1 /* MacIoCtlDisc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MacIoCtlDisc.cpp; sourceTree = "<group>"; };
-		3F33EF91135D7691005F36F1 /* MacIoCtlDisc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MacIoCtlDisc.h; sourceTree = "<group>"; };
 		3F33F12B135D861E005F36F1 /* DiscRecording.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DiscRecording.framework; path = System/Library/Frameworks/DiscRecording.framework; sourceTree = SDKROOT; };
 		3F33F43A135F02BA005F36F1 /* libcdda_paranoia.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdda_paranoia.dylib; path = lib/libcdda_paranoia.dylib; sourceTree = "<group>"; };
 		3F33F475136005AF005F36F1 /* libcdda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libcdda.h; sourceTree = "<group>"; };
@@ -79,8 +77,6 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				3F33EF90135D7691005F36F1 /* MacIoCtlDisc.cpp */,
-				3F33EF91135D7691005F36F1 /* MacIoCtlDisc.h */,
 				08FB7796FE84155DC02AAC07 /* main.c */,
 				3F33F475136005AF005F36F1 /* libcdda.h */,
 				3F33F476136005AF005F36F1 /* libcdda.c */,

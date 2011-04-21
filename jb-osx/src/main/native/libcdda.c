@@ -1,3 +1,4 @@
+
 /**  
  
  This program is free software: you can redistribute it and/or modify
@@ -15,19 +16,18 @@
  
  @author Josh Long (sort of)
  
- The very large majority of this code is based on, or derived from works like DISCID and libcdio
+ The very large majority of the code in this project - the Linux and OSX implementations and 
+ soon on the Windows implementation - is based on, or derived from reading (and USING!) works like 
+ discid, libcdio, and cdparanoia.
+ 
+ These projects are written by C programmers who are a million times more adept than I, and I am forever grateful
+ that they shared their code. If you're reading this and find it helpful, consider showing your
+ support to one of those projects.
+ 
+ 
  */
 
 
-
-/*
- *  libcdda.c
- *  cdrom1
- *
- *  Created by Josh Long on 4/20/11.
- *  Copyright 2011 SpringSource. All rights reserved.
- *
- */
 
 #include "libcdda.h"
 

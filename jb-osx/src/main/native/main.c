@@ -16,13 +16,21 @@
 
  @author Josh Long (sort of)
  
- The very large majority of this code is based on, or derived from works like DISCID and libcdio 
-
+ The very large majority of the code in this project - the Linux and OSX implementations and 
+ soon on the Windows implementation - is based on, or derived from reading (and USING!) works like 
+ discid, libcdio, and cdparanoia.
  
- http://www.oramind.com/index.php?option=com_content&view=article&id=91:installing-portable-libraries-on-os-x&catid=18:programming-articles&Itemid=39
- http://www.gnu.org/software/libcdio/libcdio.html 
+ These projects are written by C programmers who are a million times more adept than I, and I am forever grateful
+ that they shared their code. If you're reading this and find it helpful, consider showing your
+ support to one of those projects.
+
  */
 
+
+/*  
+ http://www.oramind.com/index.php?option=com_content&view=article&id=91:installing-portable-libraries-on-os-x&catid=18:programming-articles&Itemid=39
+ http://www.gnu.org/software/libcdio/libcdio.html  
+ */
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
@@ -45,30 +53,36 @@
 #include "libcdda.h"
 #include <stdio.h>
 
-#ifdef HAVE_STDLIB_H
-#include <stdlib.h>
-#endif
 
- 
  
 
 int main(int argc, const char *argv[])
 { 
-	
-	
+
+
 	char * device_name = "disk1" ;  
-	
 	char *cddb_id = disc_id(  device_name );
 	printf( "the disc id is %s \n", cddb_id);
 	
+	const char * raw_device_path = get_raw_device_path( device_name) ; // /dev/rdisk1				
+	printf( "the device_name is %s, and the raw_device_path is %s \n", device_name, raw_device_path) ;	
 	
- 	const char * raw_device_path = get_raw_device_path( device_name) ; // /dev/rdisk1				
-	 printf( "the device_name is %s, and the raw_device_path is %s \n", device_name, raw_device_path) ;	
-	 
-	 int tracks = track_count( device_name) ; 
-	 printf ("there are %d tracks.\n", tracks) ; 
- 
+	int tracks = track_count( device_name) ; 
+	printf ("there are %d tracks.\n", tracks) ; 
 	
-	read_track_to_wav_file( "disk1", 2, "/Users/jolong/Desktop/foo1.wav") ;
-	
+	char * out = "/Users/jolong/Desktop/pm/pm%d.wav" ;
+	unsigned i  = 0 ;
+
+	for(i = 1 ; i <= tracks; i++) {
+		// I know that 1 byte == 1 char on most systems, but that won't always be true w/ unicode and so on
+		char *fn = malloc( sizeof(char)* strlen( out)+2 ); 
+		sprintf( fn , out, i) ;
+		
+		printf ( "about to start ripping track %s.\n" , fn ) ;
+		
+		read_track_to_wav_file(  device_name, i ,  fn ) ;
+	}
+
+///
+
 }  
