@@ -19,52 +19,36 @@
  The very large majority of this code is based on, or derived from works like DISCID and libcdio
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <IOKit/storage/IOCDMediaBSDClient.h>
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <errno.h>
-#include <paths.h>
-#include <sys/param.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/IOBSD.h>
-#include <IOKit/storage/IOMediaBSDClient.h>
-#include <IOKit/storage/IOMedia.h>
-#include <IOKit/storage/IOCDMedia.h>
-#include <IOKit/storage/IOCDTypes.h>
-#include <CoreFoundation/CoreFoundation.h> 
-#include <DiscRecording/DiscRecording.h> 
-
-
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-
-#include <fcntl.h>
-#include <sys/ioctl.h>
-#include <errno.h>
-#include <paths.h>
-#include <sys/param.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/IOBSD.h>
-#include <IOKit/storage/IOMediaBSDClient.h>
-#include <IOKit/storage/IOMedia.h>
-#include <IOKit/storage/IOCDMedia.h>
-#include <IOKit/storage/IOCDTypes.h>
-#include <CoreFoundation/CoreFoundation.h> 
-#include <DiscRecording/DiscRecording.h> 
-#include <IOKit/storage/IOCDTypes.h>
 
 #include "MacIoCtlDisc.h"
+#include <CoreFoundation/CoreFoundation.h> 
+#include <DiscRecording/DiscRecording.h> 
+#include <IOKit/IOBSD.h>
+#include <IOKit/IOKitLib.h>
+#include <IOKit/storage/IOCDMedia.h>
+#include <IOKit/storage/IOCDMediaBSDClient.h>
+#include <IOKit/storage/IOCDTypes.h>
+#include <IOKit/storage/IOMedia.h>
+#include <IOKit/storage/IOMediaBSDClient.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <getopt.h>
+#include <math.h>
+#include <paths.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/ioctl.h>
+#include <sys/param.h>
+#include <sys/stat.h>
+#include <sys/time.h>
+#include <IOKit/storage/IOCDTypes.h>
+#include <unistd.h>
+
+#include <interface/cdda_interface.h>
+#include <paranoia/cdda_paranoia.h>
+#include <paranoia/utils.h>;
 
 
 /**
@@ -274,8 +258,7 @@ unsigned long CMacIoCtlDisc::GetFrames(unsigned track) const
 	/// READ TRACK
 	//   lifted straight from the libcdio examples 
 
-#include <fcntl.h>
-#include <stdio.h>
+
 #define writestr(fd, s) write(fd, s, sizeof(s)-1)  /* Subtract 1 for trailing '\0'. */
 
 static void put_num(long int num, int f, int bytes)
@@ -359,39 +342,176 @@ Boolean ReadSector(int fileDescriptor)
 }
  
 
+// from cdparanoi/header.h
+extern void WriteWav(int f,long bytes); 
+
+// 
+void ReadTrackWriteCallback(long inpos, int function){ } 
+
 
 void  CMacIoCtlDisc::ReadTrackToWavFile( unsigned track, char * whereToDumpWavData)   
-{
-	// FIXME repl w/ self->deviceName
+{ 	
+	int paranoia_mode=PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP; 
 	
-	char *rawDeviceName = RawPath() ; 
-	int in= open( rawDeviceName  , O_RDONLY); 
-	int out=  creat ( whereToDumpWavData, 0644); 
+	cdrom_drive *d=NULL;
+	cdrom_paranoia *p=NULL; 
 	
-	
-	if( in != -1)
-	{
-		
-		
-		//lsn_t l ;
-		
-		write_WAV_header(out,  1024);
-		
-		CDTOC *toc = m_pToc; // weve already got it defined, lets use it to iterate over CDDA
-		
-		
-		
-		
-		
-		
-		if(out!=-1) 
-			close(out);		
-		
-		if(in!=-1)
-			close(in);
-		
-	}
-	
-}
 
+	d=cdda_identify("/dev/cdrom",CDDA_MESSAGE_PRINTIT,NULL); 
+	  cdda_verbose_set(d,CDDA_MESSAGE_PRINTIT,CDDA_MESSAGE_PRINTIT);
+	
+	// the trick is to figure out the first and last sector for tracks 
+	long first_sector;
+    long last_sector;
+	
+	long batch_first=first_sector;
+	long batch_last=last_sector;
+	int sample_offset=0;
+	int offset_skip=sample_offset*4;
+	unsigned result =cdda_open(d) ;
+	if(result == 0){
+		
+		//display_toc(d); // fixme:this should be only done if we have some sort of verbose setting.
+		
+		// first_sector=cdda_disc_firstsector(d);
+		first_sector=cdda_track_firstsector(d ,track) ;
+		last_sector = cdda_track_lastsector(d, track) ;
+		
+		
+		int track1=cdda_sector_gettrack(d,first_sector);
+		int track2=cdda_sector_gettrack(d,last_sector);
+		
+		//long off1=first_sector-cdda_track_firstsector(d,track1);
+		//long off2=last_sector-cdda_track_firstsector(d,track2);
+		
+		int i;	
+		
+		for(i=track1;i<=track2;i++){
+			if(!cdda_track_audiop(d,i)) 
+			{
+				puts ("Selected span contains non audio tracks.  Aborting.\n\n");
+				exit(1);
+			}
+		}
+		
+		p=paranoia_init(d);
+		
+		paranoia_modeset(p,paranoia_mode);
+		long cursor;
+		int16_t offset_buffer[1176];
+		int offset_buffer_used=0;
+//		int offset_skip=sample_offset*4;
+		
+		paranoia_seek(p,cursor=first_sector,SEEK_SET);      
+		
+		
+		seteuid(getuid());
+		setegid(getgid());
+		
+		int out=open( whereToDumpWavData ,O_RDWR|O_CREAT|O_TRUNC,0666);
+		
+		WriteWav(out,(batch_last-batch_first+1)*CD_FRAMESIZE_RAW);
+
+		int output_endian=0;		
+		int max_retries = 5;
+		
+		/// now we actually do the writes
+		int skipped_flag=0;
+		while(cursor<=batch_last){
+			/* read a sector */
+			int16_t *readbuf=paranoia_read_limited(p,ReadTrackWriteCallback,max_retries);
+			char *err=cdda_errors(d);
+			char *mes=cdda_messages(d);
+			
+			if(mes || err)
+				fprintf(stderr,"\r                               "
+						"                                           \r%s%s\n",
+						mes?mes:"",err?err:"");
+			
+			if(err)free(err);
+			if(mes)free(mes);
+			if(readbuf==NULL){
+				/* if(errno==EBADF || errno==ENOMEDIUM){
+				 report("\nparanoia_read: CDROM drive unavailable, bailing.\n");
+				 exit(1);
+				 }
+				 skipped_flag=1;
+				 report("\nparanoia_read: Unrecoverable error, bailing.\n");
+*/
+				puts( "Error!!" );
+				break;
+			}
+			if(skipped_flag  ){
+//				cursor=batch_last+1;
+//				break;
+			}
+			
+			skipped_flag=0;
+			cursor++;
+			
+
+			
+			if(output_endian!=bigendianp()){
+				int i;
+				for(i=0;i<CD_FRAMESIZE_RAW/2;i++)readbuf[i]=swap16(readbuf[i]);
+			}
+			
+			ReadTrackWriteCallback(cursor*(CD_FRAMEWORDS)-1,-2);
+			
+			if(buffering_write(out,((char *)readbuf)+offset_skip,
+							   CD_FRAMESIZE_RAW-offset_skip)){
+				printf  ("Error writing output: %s",strerror(errno));
+				exit(1);
+			}
+			offset_skip=0;
+			
+			if(output_endian!=bigendianp()){
+				int i;
+				for(i=0;i<CD_FRAMESIZE_RAW/2;i++)readbuf[i]=swap16(readbuf[i]);
+			}
+			
+			/* One last bit of silliness to deal with sample offsets */
+			if(sample_offset && cursor>batch_last){
+				int i;
+				/* read a sector and output the partial offset.  Save the
+				 rest for the next batch iteration */
+				readbuf=paranoia_read_limited(p,ReadTrackWriteCallback,max_retries);
+				err=cdda_errors(d);mes=cdda_messages(d);
+				
+				if(mes || err)
+					fprintf(stderr,"\r                               "
+							"                                           \r%s%s\n",
+							mes?mes:"",err?err:"");
+				
+				if(err)free(err);if(mes)free(mes);
+				if(readbuf==NULL){
+					skipped_flag=1;
+					puts ("\nparanoia_read: Unrecoverable error reading through "
+						   "sample_offset shift\n\tat end of track, bailing.\n");
+					break;
+				}
+				//if(skipped_flag && abort_on_skip)break;
+				skipped_flag=0;
+				/* do not move the cursor */
+				
+				if(output_endian!=bigendianp())
+					for(i=0;i<CD_FRAMESIZE_RAW/2;i++)
+						offset_buffer[i]=swap16(readbuf[i]);
+				else
+					memcpy(offset_buffer,readbuf,CD_FRAMESIZE_RAW);
+				offset_buffer_used=sample_offset*4;
+				
+				ReadTrackWriteCallback(cursor*(CD_FRAMEWORDS),-2);
+				
+				if(buffering_write(out,(char *)offset_buffer,
+								   offset_buffer_used)){
+					printf ("Error writing output: %s",strerror(errno));
+					exit(1);
+				}
+			}
+		}
+	}
+}
+		
+		
  
