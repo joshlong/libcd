@@ -56,49 +56,19 @@ int main(int argc, const char *argv[])
 { 
 	
 	
-	const char * device_name = "disk1" ;  
+	char * device_name = "disk1" ;  
+	
 	char *cddb_id = disc_id(  device_name );
 	printf( "the disc id is %s \n", cddb_id);
 	
 	
-	const char * raw_device_path = get_raw_device_path( device_name) ; // /dev/rdisk1				
-	printf( "the device_name is %s, and the raw_device_path is %s \n", device_name, raw_device_path) ;	
-
-	int tracks = track_count( device_name) ; 
-	printf ("there are %d tracks.\n", tracks) ; 
+ 	const char * raw_device_path = get_raw_device_path( device_name) ; // /dev/rdisk1				
+	 printf( "the device_name is %s, and the raw_device_path is %s \n", device_name, raw_device_path) ;	
+	 
+	 int tracks = track_count( device_name) ; 
+	 printf ("there are %d tracks.\n", tracks) ; 
+ 
 	
-	
-
-	
- /*
-  
-  io_iterator_t	mediaIterator;
-  char bsdPath[ MAXPATHLEN ];
-  
-  
-  FindEjectableCDMedia(&mediaIterator);
-  GetBSDPath(mediaIterator, bsdPath, sizeof(bsdPath));
-  
-  
-  
-  COSDisc * cdInDrive = new COSDisc( bsdPath ); // this is just 'disk1' 
-  
-  char * buffer =  	cdInDrive->DiscId( );
-  printf ( "the DISCID is: %s. \n", buffer ) ;	
-  free(buffer) ;
-  
-  
-  cdInDrive->ReadTrackToWavFile( 2, "/Users/jolong/Desktop/2.wav" ) ;
-  
-  // no need cdInDrive->ForceOpenOrEject();
-  
-  
-  if (mediaIterator) {
-  IOObjectRelease(mediaIterator);
-  mediaIterator = IO_OBJECT_NULL; 
-  }
-  delete cdInDrive;
-  return 0;
-  */
+	read_track_to_wav_file( "/dev/rdisk1", 2, "/Users/jolong/Desktop/foo1.wav") ;
 	
 }  

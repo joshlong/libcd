@@ -10,7 +10,6 @@
 #ifndef _cdda_interface_h_
 #define _cdda_interface_h_
 
-
 #ifndef CD_FRAMESIZE
 #define CD_FRAMESIZE 2048
 #endif
@@ -19,12 +18,16 @@
 #endif
 #define CD_FRAMESAMPLES (CD_FRAMESIZE_RAW / 4)
 
+#ifdef __APPLE__
+#include <IOKit/IOKitLib.h>
+#include <IOKit/storage/IOCDTypes.h>
+#endif
+
 #include <sys/types.h>
 #include <signal.h>
 
-
 #define MAXTRK 100
- 
+
 typedef struct TOC {	/* structure of table of contents */
   unsigned char bFlags;
   unsigned char bTrack;
@@ -37,6 +40,7 @@ typedef struct TOC {	/* structure of table of contents */
 #define TEST_INTERFACE	 2
 #define SGIO_SCSI	 3
 #define SGIO_SCSI_BUGGY1 4
+#define IOKIT_INTERFACE  5
 
 #define CDDA_MESSAGE_FORGETIT 0
 #define CDDA_MESSAGE_PRINTIT 1
@@ -86,7 +90,7 @@ typedef struct cdrom_drive{
   int is_atapi;
   int is_mmc;
 
-  cdda_private_data_t *private; 
+  cdda_private_data_t *private;
   void         *reserved;
   unsigned char inqbytes[4];
 
@@ -102,6 +106,12 @@ typedef struct cdrom_drive{
 
   sigset_t sigset;
 
+#ifdef __APPLE__
+  io_object_t io;
+
+  CDTOC *raw_toc;
+  int descriptor_count;
+#endif
 } cdrom_drive;
 
 #define IS_AUDIO(d,i) (!(d->disc_toc[i].bFlags & 0x04))
@@ -205,6 +215,5 @@ static char *strerror_tr[]={
 405: Option not supported by drive
 
 */
- 
 #endif
 

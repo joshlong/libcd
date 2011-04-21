@@ -10,6 +10,7 @@
 		3F33F12C135D861E005F36F1 /* DiscRecording.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F12B135D861E005F36F1 /* DiscRecording.framework */; };
 		3F33F43B135F02BA005F36F1 /* libcdda_paranoia.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F43A135F02BA005F36F1 /* libcdda_paranoia.dylib */; };
 		3F33F477136005AF005F36F1 /* libcdda.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F33F476136005AF005F36F1 /* libcdda.c */; };
+		3F33F67513604051005F36F1 /* libcdda_interface.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F67413604051005F36F1 /* libcdda_interface.dylib */; };
 		3F43818A135D41E4001CBA9F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F438189135D41E4001CBA9F /* IOKit.framework */; };
 		3F43818E135D41F7001CBA9F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F43818D135D41F7001CBA9F /* CoreFoundation.framework */; };
 		8DD76FAC0486AB0100D96B5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -37,6 +38,7 @@
 		3F33F43A135F02BA005F36F1 /* libcdda_paranoia.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdda_paranoia.dylib; path = lib/libcdda_paranoia.dylib; sourceTree = "<group>"; };
 		3F33F475136005AF005F36F1 /* libcdda.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libcdda.h; sourceTree = "<group>"; };
 		3F33F476136005AF005F36F1 /* libcdda.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libcdda.c; sourceTree = "<group>"; };
+		3F33F67413604051005F36F1 /* libcdda_interface.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdda_interface.dylib; path = lib/libcdda_interface.dylib; sourceTree = "<group>"; };
 		3F438189135D41E4001CBA9F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		3F43818D135D41F7001CBA9F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		8DD76FB20486AB0100D96B5E /* cdrom1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cdrom1; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +54,7 @@
 				3F43818E135D41F7001CBA9F /* CoreFoundation.framework in Frameworks */,
 				3F33F12C135D861E005F36F1 /* DiscRecording.framework in Frameworks */,
 				3F33F43B135F02BA005F36F1 /* libcdda_paranoia.dylib in Frameworks */,
+				3F33F67513604051005F36F1 /* libcdda_interface.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				3F33F43A135F02BA005F36F1 /* libcdda_paranoia.dylib */,
+				3F33F67413604051005F36F1 /* libcdda_interface.dylib */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				C6A0FF2B0290797F04C91782 /* Documentation */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,

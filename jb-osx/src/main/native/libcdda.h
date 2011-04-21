@@ -20,3 +20,5 @@ char * get_raw_device_path(char * deviceName);
 char * disc_id(char * deviceName) ;
 
 int track_count( char * deviceName);
+
+void  read_track_to_wav_file( char * deviceName, unsigned track, char * whereToDumpWavData)   ;
