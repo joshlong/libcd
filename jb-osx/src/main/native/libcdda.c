@@ -229,25 +229,30 @@ unsigned long GetFrames(CDTOC* toc,unsigned m_track_count, unsigned track)
 
 
 void ReadTrackWriteCallback(long inpos, int function)
-{ } 
+{ 
+	// this is used (for example) to display progress... 
+	// but since we don't care, then we won't use it.
+} 
 
 void  read_track_to_wav_file( char * deviceName,
 						  unsigned track, 
 						char * whereToDumpWavData)   
 { 	
 	int paranoia_mode=PARANOIA_MODE_FULL^PARANOIA_MODE_NEVERSKIP; 
+
+	long first_sector;
+    long last_sector;
+    long batch_first;
+    long batch_last;
+    int batch_track;
 	
 	cdrom_drive *d=NULL;
 	cdrom_paranoia *p=NULL; 
+	
 	d=cdda_find_a_cdrom(1,NULL);	
 	cdda_verbose_set(d,CDDA_MESSAGE_PRINTIT,CDDA_MESSAGE_PRINTIT);
 	
-	// the trick is to figure out the first and last sector for tracks 
-	long first_sector;
-    long last_sector;
-	
-	long batch_first=first_sector;
-	long batch_last=last_sector;
+	 	
 	int sample_offset=0;
 	int offset_skip=sample_offset*4;
 	unsigned result =cdda_open(d) ;
@@ -259,8 +264,10 @@ void  read_track_to_wav_file( char * deviceName,
 		
 		// first_sector=cdda_disc_firstsector(d);
 		first_sector= cdda_track_firstsector(d ,track) ;
-		last_sector = cdda_track_lastsector(d, track) ;
+		last_sector =  cdda_track_lastsector(d,cdda_sector_gettrack(d,first_sector));
 		
+		batch_first = first_sector;
+		batch_last = last_sector;
 		
 		int track1=cdda_sector_gettrack(d,first_sector);
 		int track2=cdda_sector_gettrack(d,last_sector);
@@ -337,7 +344,8 @@ void  read_track_to_wav_file( char * deviceName,
 			
 			if(output_endian!=bigendianp()){
 				int i;
-				for(i=0;i<CD_FRAMESIZE_RAW/2;i++)readbuf[i]=swap16(readbuf[i]);
+				for(i=0;i<CD_FRAMESIZE_RAW/2;i++) 
+					readbuf[i]=swap16(readbuf[i]);
 			}
 			
 			ReadTrackWriteCallback(cursor*(CD_FRAMEWORDS)-1,-2);

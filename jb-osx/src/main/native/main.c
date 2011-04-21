@@ -69,6 +69,6 @@ int main(int argc, const char *argv[])
 	 printf ("there are %d tracks.\n", tracks) ; 
  
 	
-	read_track_to_wav_file( "/dev/rdisk1", 2, "/Users/jolong/Desktop/foo1.wav") ;
+	read_track_to_wav_file( "disk1", 2, "/Users/jolong/Desktop/foo1.wav") ;
 	
 }  
