@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>3F33F79C1360E853005F36F1</string>
+						<string>3F33F7A61360EE96005F36F1</string>
 						<key>history</key>
 						<array>
 							<string>3F33F78E1360E7F4005F36F1</string>
@@ -256,7 +256,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>3F33F79D1360E853005F36F1</string>
+						<string>3F33F7A71360EE96005F36F1</string>
 						<key>history</key>
 						<array>
 							<string>3F33F75B1360E11E005F36F1</string>
@@ -360,7 +360,6 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>6</integer>
 									<integer>3</integer>
 									<integer>0</integer>
 								</array>
@@ -385,7 +384,7 @@
 							<real>315</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>-1488 -202 1270 974 -1600 -400 1600 1200 </string>
+						<string>-1488 -204 1270 974 -1600 -400 1600 1200 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -415,7 +414,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>3F33F79B1360E853005F36F1</string>
+										<string>3F33F7A51360EE96005F36F1</string>
 										<key>history</key>
 										<array>
 											<string>3F43828A135D4776001CBA9F</string>
@@ -439,7 +438,7 @@
 											<string>3F33F77F1360E526005F36F1</string>
 											<string>3F33F7981360E853005F36F1</string>
 											<string>3F33F7991360E853005F36F1</string>
-											<string>3F33F79A1360E853005F36F1</string>
+											<string>3F33F7741360E32D005F36F1</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -453,7 +452,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {933, 928}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1488 -202 1270 974 -1600 -400 1600 1200 </string>
+								<string>-1488 -204 1270 974 -1600 -400 1600 1200 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -473,7 +472,7 @@
 								<key>Frame</key>
 								<string>{{0, 933}, {933, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1488 -202 1270 974 -1600 -400 1600 1200 </string>
+								<string>-1488 -204 1270 974 -1600 -400 1600 1200 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -646,12 +645,12 @@
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>3F33F76A1360E28A005F36F1</string>
 		<string>3F438215135D470D001CBA9F</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>3F33F7661360E28A005F36F1</string>
 		<string>/Users/jolong/Desktop/libcd/jb-osx/src/main/native/cdrom1.xcodeproj</string>
+		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
-	<string>-1488 -202 1270 974 -1600 -400 1600 1200 </string>
+	<string>-1488 -204 1270 974 -1600 -400 1600 1200 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -989,7 +988,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {637, 681}}</string>
 								<key>RubberWindowFrame</key>
-								<string>160 56 637 722 0 0 1280 778 </string>
+								<string>-1153 -145 637 722 -1600 -400 1600 1200 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -1018,7 +1017,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>160 56 637 722 0 0 1280 778 </string>
+			<string>-1153 -145 637 722 -1600 -400 1600 1200 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
@@ -1201,11 +1200,12 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateExpansionKey</key>
 									<array>
 										<string>1C77FABC04509CD000000102</string>
-										<string>1C3E0DCA080725EA00A55177</string>
+										<string>1C3E0DCC080725EA11A45113</string>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
+											<integer>1</integer>
 											<integer>0</integer>
 										</array>
 									</array>

@@ -244,7 +244,7 @@ void  read_track_to_wav_file( char * deviceName,
     long last_sector;
     long batch_first;
     long batch_last;
-    int batch_track;
+    //int batch_track;
 	
 	cdrom_drive *d=NULL;
 	cdrom_paranoia *p=NULL; 
