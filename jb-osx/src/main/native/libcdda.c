@@ -63,7 +63,8 @@
 #include <cdda_interface.h>
 #include <cdda_paranoia.h>
 #include <utils.h>
-
+#include <FLAC/all.h>
+#include "flac_encode.h"
 
 #define MAX_BUFFER   1536
 const unsigned MSF_OFFSET = 150;
@@ -71,6 +72,11 @@ const unsigned FRAMES_PER_SECOND = 75;
 const unsigned int max_buffer = MAX_BUFFER ;
 
 
+
+void transcode_wav_to_flac(char *wav, char *flac)
+{	
+	encode_flac_file_name ( wav, 10, flac);
+}
 
 long blocking_write(int outf, char *buffer, long num){
 	long words=0,temp;
@@ -365,8 +371,9 @@ void  read_track_to_wav_file( char * deviceName,
 			/* One last bit of silliness to deal with sample offsets */
 			if(sample_offset && cursor>batch_last){
 				int i;
-				/* read a sector and output the partial offset.  Save the
-				 rest for the next batch iteration */
+				/* read a sector and output the partial offset. 
+				   Save the rest for the next batch iteration 
+				 */
 				readbuf=paranoia_read_limited(p,ReadTrackWriteCallback,max_retries);
 				err=cdda_errors(d);mes=cdda_messages(d);
 				

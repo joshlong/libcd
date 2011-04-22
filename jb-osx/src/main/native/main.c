@@ -50,18 +50,38 @@
 #include <DiscRecording/DiscRecording.h> 
 #include <stdio.h>
 #include <sys/types.h>
-#include "libcdda.h"
+
 #include <stdio.h>
+#include <sys/stat.h>
+#include <dirent.h>
 
+#include "libcdda.h"
 
- 
+int ensure_directory_exists(char * dirName)
+{
+	//printf("trying to ensure that %s exists. \n" , dirName );
+	
+	struct stat dirExists ;
 
-int main(int argc, const char *argv[])
-{ 
+	if(stat( dirName,&dirExists)!=0 ){ 
+ 		
+		mkdir( dirName,S_IRWXU ); 
+		
+		if( stat(dirName, &dirExists)  == 0) {
+			return 1; 
+		} else {  
+			printf( "couldn't create directory %s \n", dirName) ; 
+			return 0 ; // couldnt do it and it doesnt exist
+		}
+	}
+	
+ 	return 1;	 
+	
+}
 
-
-	char * device_name = "disk1" ;  
-	char *cddb_id = disc_id(  device_name );
+int test_examining_drive( char * device_name) 
+{
+ 	char * cddb_id = disc_id(  device_name );
 	printf( "the disc id is %s \n", cddb_id);
 	
 	const char * raw_device_path = get_raw_device_path( device_name) ; // /dev/rdisk1				
@@ -69,20 +89,69 @@ int main(int argc, const char *argv[])
 	
 	int tracks = track_count( device_name) ; 
 	printf ("there are %d tracks.\n", tracks) ; 
+	return 0 ;
+} 
+
+int test_transcoding_to_flac( char *wav )
+{
 	
-	char * out = "/Users/jolong/Desktop/pm/pm%d.wav" ;
-	unsigned i  = 0 ;
+	return 0;
+}
 
-	for(i = 1 ; i <= tracks; i++) {
-		// I know that 1 byte == 1 char on most systems, but that won't always be true w/ unicode and so on
-		char *fn = malloc( sizeof(char)* strlen( out)+2 ); 
-		sprintf( fn , out, i) ;
+int test_ripping_tracks( char * device_name , unsigned sample_size) 
+{
+	
+	int tracks = track_count( device_name);
+	
+	char * dir = (char*) malloc(MAXPATHLEN);  
+	getcwd (dir, MAXPATHLEN) ;
+	
+	strcat(dir,  "/disc/") ;
+	
+	if( ensure_directory_exists( dir ) )
+	{
 		
-		printf ( "about to start ripping track %s.\n" , fn ) ;
+		// need to get out early.		
+		char * out = malloc( strlen( dir) + 5) ;
+		strcpy(out, dir);	
+		strcat(out, "pm%d.wav");
 		
-		read_track_to_wav_file(  device_name, i ,  fn ) ;
+		
+		unsigned i;	
+		unsigned sample = MIN(  sample_size , tracks) ; // later we can add a higher number
+		
+		printf("going to rip %d tracks and write them to directory %s. \n", sample , dir  );
+		
+		for(i = 1 ; i <= sample ; i++) {
+			// I know that 1 byte == 1 char on most systems, but that won't always be true w/ unicode and so on
+			char *fn = malloc( sizeof(char)* strlen( out)+2 ); 
+			sprintf( fn , out, i) ;		
+			printf ( "about to start ripping track %d to .wav file %s.\n" , i, fn ) ;		
+			read_track_to_wav_file(  device_name, i ,  fn ) ;
+		}
 	}
+	
+	return 0 ;
+	
+}
+ 
 
-///
+int main(int argc, const char *argv[])
+{ 
 
+
+	char * device_name = "disk1" ;  
+	
+	test_examining_drive( device_name) ;
+	
+	//test_ripping_tracks( device_name, 1) ;
+	
+	char  * wav = "/Users/jolong/Desktop/pm1.wav" ;
+	char * flac ="/Users/jolong/Desktop/pm1.flac" ;
+	
+	transcode_wav_to_flac( wav,flac);
+	
+	
+	
 }  
+

@@ -13,6 +13,8 @@
 		3F33F67513604051005F36F1 /* libcdda_interface.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F33F67413604051005F36F1 /* libcdda_interface.dylib */; };
 		3F43818A135D41E4001CBA9F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F438189135D41E4001CBA9F /* IOKit.framework */; };
 		3F43818E135D41F7001CBA9F /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F43818D135D41F7001CBA9F /* CoreFoundation.framework */; };
+		3FBA8C6E1361530700A37C94 /* libFLAC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FBA8C6D1361530700A37C94 /* libFLAC.dylib */; };
+		3FBA8C80136156A500A37C94 /* flac_encode.c in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA8C7E136156A500A37C94 /* flac_encode.c */; };
 		8DD76FAC0486AB0100D96B5E /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8DD76FB00486AB0100D96B5E /* cdrom1.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* cdrom1.1 */; };
 /* End PBXBuildFile section */
@@ -39,7 +41,10 @@
 		3F33F67413604051005F36F1 /* libcdda_interface.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcdda_interface.dylib; path = lib/libcdda_interface.dylib; sourceTree = "<group>"; };
 		3F438189135D41E4001CBA9F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		3F43818D135D41F7001CBA9F /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		8DD76FB20486AB0100D96B5E /* cdrom1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cdrom1; sourceTree = BUILT_PRODUCTS_DIR; };
+		3FBA8C6D1361530700A37C94 /* libFLAC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libFLAC.dylib; path = lib/libFLAC.dylib; sourceTree = "<group>"; };
+		3FBA8C7E136156A500A37C94 /* flac_encode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = flac_encode.c; sourceTree = "<group>"; };
+		3FBA8C7F136156A500A37C94 /* flac_encode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flac_encode.h; sourceTree = "<group>"; };
+		8DD76FB20486AB0100D96B5E /* libcdda */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = libcdda; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6A0FF2C0290799A04C91782 /* cdrom1.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = cdrom1.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -53,6 +58,7 @@
 				3F33F12C135D861E005F36F1 /* DiscRecording.framework in Frameworks */,
 				3F33F43B135F02BA005F36F1 /* libcdda_paranoia.dylib in Frameworks */,
 				3F33F67513604051005F36F1 /* libcdda_interface.dylib in Frameworks */,
+				3FBA8C6E1361530700A37C94 /* libFLAC.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +68,7 @@
 		08FB7794FE84155DC02AAC07 /* cdrom1 */ = {
 			isa = PBXGroup;
 			children = (
+				3FBA8C6D1361530700A37C94 /* libFLAC.dylib */,
 				3F33F43A135F02BA005F36F1 /* libcdda_paranoia.dylib */,
 				3F33F67413604051005F36F1 /* libcdda_interface.dylib */,
 				08FB7795FE84155DC02AAC07 /* Source */,
@@ -77,6 +84,8 @@
 		08FB7795FE84155DC02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				3FBA8C7E136156A500A37C94 /* flac_encode.c */,
+				3FBA8C7F136156A500A37C94 /* flac_encode.h */,
 				08FB7796FE84155DC02AAC07 /* main.c */,
 				3F33F475136005AF005F36F1 /* libcdda.h */,
 				3F33F476136005AF005F36F1 /* libcdda.c */,
@@ -87,7 +96,7 @@
 		1AB674ADFE9D54B511CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8DD76FB20486AB0100D96B5E /* cdrom1 */,
+				8DD76FB20486AB0100D96B5E /* libcdda */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -118,7 +127,7 @@
 			name = cdrom1;
 			productInstallPath = "$(HOME)/bin";
 			productName = cdrom1;
-			productReference = 8DD76FB20486AB0100D96B5E /* cdrom1 */;
+			productReference = 8DD76FB20486AB0100D96B5E /* libcdda */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -155,6 +164,7 @@
 			files = (
 				8DD76FAC0486AB0100D96B5E /* main.c in Sources */,
 				3F33F477136005AF005F36F1 /* libcdda.c in Sources */,
+				3FBA8C80136156A500A37C94 /* flac_encode.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +186,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
 				);
-				PRODUCT_NAME = cdrom1;
+				PRODUCT_NAME = libcdda;
 			};
 			name = Debug;
 		};
@@ -192,7 +202,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/lib\"",
 				);
-				PRODUCT_NAME = cdrom1;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = libcdda;
 			};
 			name = Release;
 		};

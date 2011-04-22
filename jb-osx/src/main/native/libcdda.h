@@ -44,8 +44,18 @@ int open_cd_drive_door(char *deviceName);
 
 char * get_raw_device_path(char * deviceName);
 
+/* generates a CDDB DISCID that can be used to look it up
+ */
 char * disc_id(char * deviceName) ;
 
+/* returns the count of traks on the CDDA CD 
+ */
 int track_count( char * deviceName);
 
+/* reads a track from a CDDA filesystem and stores writes it to the path given as a .WAV file.
+ */
 void  read_track_to_wav_file( char * deviceName, unsigned track, char * whereToDumpWavData)   ;
+
+/* usually we can acheive 50% compression w/ FLAC
+ */
+void transcode_wav_to_flac(char *wav, char *flac);
